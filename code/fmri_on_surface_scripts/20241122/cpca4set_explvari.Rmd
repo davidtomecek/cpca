@@ -1,0 +1,136 @@
+---
+title: "SW - group cPCA - individual explained variance"
+author: "Jiří Anýž"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
+
+dec <- 'fsaverage6'
+
+path_work <- '/home/anyzjiri/NUDZ/fmri_on_surface/data/workspaces/20241122/'
+files <- list.files(path=path_work,pattern=paste0('^',dec,'_explained_variance_individual_[0-9]{8}\\.RData'))
+
+load(paste0(path_work,tail(files,1)))
+```
+
+## All datasets
+
+```{r}
+gcpca_ind <- 7
+desc_help <- desc[match(Sets[[gcpca_ind]],desc$dataset),]
+kable(desc_help)
+```
+
+### cPC 1
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,1] ~ desc_help$group + desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 1')
+axis(side=1,at=1:4,labels=c('Group HC x V1','Group P x V1','Group HC x V2','Group P x V2'))
+```
+
+### cPC 2
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,2] ~ desc_help$group + desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 2')
+axis(side=1,at=1:4,labels=c('Group HC x V1','Group P x V1','Group HC x V2','Group P x V2'))
+```
+### cPC 3
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,3] ~ desc_help$group + desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 3')
+axis(side=1,at=1:4,labels=c('Group HC x V1','Group P x V1','Group HC x V2','Group P x V2'))
+```
+
+
+```{r}
+tab <- table(apply(ExplVari[[gcpca_ind]][,2:5] > ExplVari[[gcpca_ind]][,1],1,any),GROUP=desc_help$group,VISIT=desc_help$visit)
+apply(tab,c(2,3),function(x) x[2]/(x[1]+x[2]))
+```
+
+
+
+
+
+## Group Healthy controls datasets
+
+```{r}
+gcpca_ind <- 5
+desc_help <- desc[match(Sets[[gcpca_ind]],desc$dataset),]
+kable(desc_help)
+```
+
+### cPC 1
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,1] ~ desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 1')
+axis(side=1,at=1:2,labels=c('Group HC x V1','Group HC x V1'))
+```
+
+### cPC 2
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,2] ~ desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 2')
+axis(side=1,at=1:2,labels=c('Group HC x V1','Group HC x V2'))
+```
+### cPC 3
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,3] ~ desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 3')
+axis(side=1,at=1:2,labels=c('Group HC x V1','Group HC x V2'))
+```
+
+```{r}
+tab <- table(apply(ExplVari[[gcpca_ind]][,2:5] > ExplVari[[gcpca_ind]][,1],1,any),GROUP=desc_help$group,VISIT=desc_help$visit)
+apply(tab,c(2,3),function(x) x[2]/(x[1]+x[2]))
+```
+
+
+
+
+
+## Group Patients datasets
+
+```{r}
+gcpca_ind <- 6
+desc_help <- desc[match(Sets[[gcpca_ind]],desc$dataset),]
+kable(desc_help)
+```
+
+### cPC 1
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,1] ~ desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 1')
+axis(side=1,at=1:2,labels=c('Group P x V1','Group P x V2'))
+```
+
+### cPC 2
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,2] ~ desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 2')
+axis(side=1,at=1:2,labels=c('Group P x V1','Group P x V2'))
+```
+### cPC 3
+
+```{r}
+boxplot(ExplVari[[gcpca_ind]][,3] ~  desc_help$visit,
+        frame=F,xaxt='n',xlab='',ylab='Explained variance [%]',main='cPC 3')
+axis(side=1,at=1:2,labels=c('Group P x V1','Group P x V2'))
+```
+
+```{r}
+tab <- table(apply(ExplVari[[gcpca_ind]][,2:5] > ExplVari[[gcpca_ind]][,1],1,any),GROUP=desc_help$group,VISIT=desc_help$visit)
+apply(tab,c(2,3),function(x) x[2]/(x[1]+x[2]))
+```
