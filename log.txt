@@ -1,0 +1,26 @@
+﻿20260506
+* use only the subjects with both sessions
+* patients, controls
+* only sessions 1, 2
+* IKEM:
+   * BOLD_TRA_EPI_2D___RESTING_3MM and t1_sag_mpr_3Diso__1mm or t1_sag_mpr_3Diso__1mm_ESO => 522 sessions
+   * files:
+      * Resting IKEM (starší) ver2.1 - art_regression_outliers_and_movement_aufmri_resting.mat and Resting IKEM (starší) ver2.1 - rp_fmri_resting.txt
+      * Resting IKEM ver2.1 - art_regression_outliers_and_movement_aufmri_resting and Resting IKEM ver2.1 - rp_fmri_resting
+      * 506 sessions
+* NUDZ:
+   * fmri_resting_tr2000ms_i300_v01 and t1_sag_mpr_3D_CONNECTOM => 502 visits
+   * files:
+      * Resting ver2.1 - art_regression_outliers_and_movement_aubfc_fmri_resting.mat and Resting ver2.1 - rp_bfc_fmri_resting.txt
+      * 494 sessions
+* filter by site
+* covariates: age, session order, folder name, site, hydra ID, category, sex
+
+
+20260505
+* vytvořit vzorek kontrol a pacientů s V1+V2
+* pouze IKEM + NUDZ non-MB rsfMRI
+* spočítat FD
+
+
+main scripts: Z:/cpca/code/fmri_on_surface_scripts/20250606/cpca_global_pimvr.R, Z:/cpca/code/fmri_on_surface_scripts/20250606/utils_pimvr.R
