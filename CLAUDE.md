@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+# Claude Code Project Instructions
+LOG_ID: 1zErPpxp9-3qb6zNiYwpMXcaJmbNj7_f3_8aIofSFGg8
+
 ## Overview
 This repository contains R scripts for performing Complex Principal Component Analysis (cPCA) on fMRI data projected onto cortical surfaces. The codebase is divided into two main versioned directories under `code/fmri_on_surface_scripts/`, representing different iterations of the implementation.
 
