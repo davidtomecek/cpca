@@ -25,10 +25,16 @@ The codebase implements a complete preprocessing and estimation pipeline:
 2. **Preprocessing**: 
     - Regressing out motion parameters (using `.mcdat` files).
     - Bandpass filtering and resampling.
+    - **Motion Analysis**: Calculating Framewise Displacement (FD) metrics to assess head motion.
 3. **Signal Transformation**: Applying the Hilbert transform to convert real-valued signals into complex-valued signals.
 4. **Estimation**: Running the cPCA/PIMVR algorithms to find the principal components.
 
-## Development Environment
+## Motion Analysis (FD Metrics)
+
+The repository includes a specialized pipeline for analyzing head motion using Jupyter notebooks in `code/calculate-fd/`:
+- `calculate_fd.ipynb`: Calculates Framewise Displacement (FD) from motion parameter files.
+- `export_metrics.ipynb`: Aggregates FD data across subjects and identifies motion outliers.
+- `plot_agg_fd.ipynb`: Visualizes the distribution of average FD across subjects.
 
 ### Language & Core Libraries
 - **Language**: R
