@@ -1,0 +1,93 @@
+% =========================================================================
+% DPARSFA Scripted Pipeline: Voxel-Based & Region-Based FD Calculation
+% =========================================================================
+
+clear; clc;
+
+% --- 1. Environmental Setup ---
+% Add DPABI/DPARSF and SPM to your MATLAB path dynamically
+addpath(genpath('/hydra/hydra_io/vypocty/tomecek/toolbox/spm12'));
+addpath(genpath('/hydra/hydra_io/vypocty/tomecek/toolbox/DPABI_V9.0_250415'));
+
+% Initialize a blank DPARSFA configuration structure
+Cfg = [];
+
+% --- 2. Directory & Subject Configuration ---
+Cfg.DataProcessDir = '/path/to/your/Study_Working_Dir'; 
+Cfg.SubjectIDPattern = 'Sub_*'; % Matches folders like Sub_001, Sub_002
+
+% Automatically detect subjects based on your pattern
+SubjectDirs = dir(fullfile(Cfg.DataProcessDir, 'FunImg', Cfg.SubjectIDPattern));
+Cfg.SubjectIDString = {SubjectDirs.name}';
+
+% --- 3. Functional Image Parameters ---
+Cfg.TR = 2.0; % Set your true Repetition Time in seconds
+Cfg.TimePoints = 0; % 0 automatically detects total volumes per subject
+
+% --- 4. Define the Processing Pipeline (No GUI) ---
+% 1 = Execute this step; 0 = Skip this step
+
+Cfg.IsSliceTiming = 1;      % Slice Timing Correction
+Cfg.SliceTiming.SliceOrder = [
+                0,
+                1.015,
+                0.0525,
+                1.07,
+                0.1075,
+                1.1225,
+                0.16,
+                1.1775,
+                0.2125,
+                1.23,
+                0.2675,
+                1.2825,
+                0.32,
+                1.3375,
+                0.375,
+                1.39,
+                0.4275,
+                1.445,
+                0.48,
+                1.4975,
+                0.535,
+                1.5525,
+                0.5875,
+                1.605,
+                0.6425,
+                1.6575,
+                0.695,
+                1.7125,
+                0.7475,
+                1.765,
+                0.8025,
+                1.82,
+                0.855,
+                1.8725,
+                0.91,
+                1.925,
+                0.9625  ];
+Cfg.SliceTiming.ReferenceSlice = 0.0;
+
+Cfg.IsRealign = 1;          % Rigid-body Realignment (Generates rp_*.txt)
+
+% CRITICAL TRICK: Voxel-Specific motion requires Co-registration and Segmentation 
+% to map structural space down to individual functional grids accurately.
+Cfg.IsCoregister = 1;       % Co-register T1 to Functional
+Cfg.IsSegment = 2;          % 2 = New Segment + DARTEL (Recommended)
+
+% --- 5. Activate Voxel-Specific Head Motion Calculations ---
+Cfg.IsCalVoxelSpecificHeadMotion = 1; % 1 = Compute FDvox (Yan et al. 2013)
+
+% --- 6. Nuisance Covariates (Optional Cleanup) ---
+% If you want to regress out white matter, CSF, and the computed motion signals:
+Cfg.IsFilter = 0;           % Keeping it at 0 to focus strictly on raw motion extraction
+Cfg.IsSmooth = 0;           % Keep at 0! Do not smooth before computing voxel-motion.
+
+% --- 7. Execution and Computational Resources ---
+Cfg.IsParallel = 1;         % 1 = Enable MATLAB parallel computing toolbox
+Cfg.ParallelWorkersNumber = 4; % Number of CPU cores to assign
+
+% --- 8. Launch the Pipeline ---
+fprintf('Starting DPARSFA Headless Pipeline for %d subjects...\n', length(Cfg.SubjectIDString));
+DPARSFA_run(Cfg);
+fprintf('Pipeline Execution Complete!\n');

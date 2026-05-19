@@ -31,10 +31,18 @@ The codebase implements a complete preprocessing and estimation pipeline:
 
 ## Motion Analysis (FD Metrics)
 
-The repository includes a specialized pipeline for analyzing head motion using Jupyter notebooks in `code/calculate-fd/`:
-- `calculate_fd.ipynb`: Calculates Framewise Displacement (FD) from motion parameter files.
-- `export_metrics.ipynb`: Aggregates FD data across subjects and identifies motion outliers.
-- `plot_agg_fd.ipynb`: Visualizes the distribution of average FD across subjects.
+The repository includes two complementary pipelines for head motion analysis in `code/calculate-fd/`:
+
+### MATLAB/DPARSFA Pipeline (Voxel-wise FD)
+- `dparfsa_voxel_based_fd.m`: Full preprocessing pipeline using SPM12 + DPABI
+  - Slice timing correction, realignment, voxel-specific FD calculation
+  - Outputs: 4D FD maps, directional motion components (X/Y/Z), mean FD/TD maps
+  - **Requirements**: MATLAB 2024a, SPM12, DPABI V9.0+
+
+### Jupyter Notebook Pipeline
+- `calculate_fd.ipynb`: Calculates FD from motion parameter files (.txt/.mat)
+- `export_metrics.ipynb`: Aggregates FD data across subjects, identifies motion outliers
+- `plot_agg_fd.ipynb`: Visualizes average FD distribution across subjects
 
 ### Language & Core Libraries
 - **Language**: R
